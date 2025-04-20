@@ -1,0 +1,41 @@
+{
+  "name": "grouper",
+  "version": "0.0.1",
+  "description": "Make groups with ease!",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WIP-Work-In-Progress/grouper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/WIP-Work-In-Progress/grouper/issues"
+  },
+  "homepage": "https://github.com/WIP-Work-In-Progress/grouper#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "eslint": "^9.25.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.9",
+    "prettier": "^3.5.3"
+  },
+  "overrides": {
+    "eslint": "^9.25.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  }
+}
