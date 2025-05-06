@@ -34,6 +34,7 @@
     "eslint": "^9.25.0"
   },
   "dependencies": {
+    "better-sqlite3": "^11.9.1",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0"
