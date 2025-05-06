@@ -1,6 +1,6 @@
 # Zasady współpracy w projekcie
 
-W tym projekcie stosujemy wersjonowanie kodu przy pomocy **Git** i **GitHub**. Celem jest zorganizowana, przejrzysta i bezpieczna współpraca przy zachowaniu wysokiej jakości kodu.
+W tym projekcie stosujemy śledzenie wersji kodu przy pomocy **Git** i **GitHub**. Celem jest zorganizowana, przejrzysta i bezpieczna współpraca przy zachowaniu wysokiej jakości kodu.
 
 ---
 
@@ -21,24 +21,20 @@ W tym projekcie stosujemy wersjonowanie kodu przy pomocy **Git** i **GitHub**. C
    git checkout -b ft-86c3cxcn2
    ```
 3. Twórz zmiany w kodzie, dodawaj commity zgodnie z zasadami niżej.
-4. Przed wysłaniem PR zaktualizuj branch:
-   ```bash
-   git fetch origin
-   git rebase origin/dev
-   ```
-5. Wypchnij kod:
+
+4. Wypchnij kod:
    ```bash
    git push origin <twoj_branch>
    ```
-6. Utwórz **Pull Request** do `dev`. Użyj szablonu PR (powinien dodać się automatycznie).
-7. Dodaj dwóch recenzentów. Po zatwierdzeniu scal PR do `dev`.
+5. Utwórz **Pull Request** do `dev`. Użyj szablonu PR (powinien dodać się automatycznie).
+6. Dodaj dwóch recenzentów. Po zatwierdzeniu scal PR do `dev`.
 
 ---
 
 ## ✅ Commity
 
 - Używaj **języka angielskiego**, czasu **Present Simple**.
-- Stosuj [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)::
+- Stosuj [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
   Przykłady:
   ```
   feat: Add login form to /auth route
@@ -73,6 +69,7 @@ Pull Requesty powinny korzystać z poniższego szablonu:
 
 ## 🧪 Dobre praktyki
 
-- Regularnie aktualizuj swojego brancha (`git pull/rebase`).
+- Regularnie aktualizuj swojego brancha (`git pull`).
 - Unikaj ogromnych PR — łatwiej je przetestować i zrecenzować.
-- Przed merdżem sprawdź, czy nie pojawiły się konflikty.
+- Przed merge sprawdź, czy nie pojawiły się konflikty.
+- W razie konfliktu kontaktuj się z osobą odpowiedzialną za kod, który powoduje konflikt, albo zmień swój kod tak, aby tych konfliktów nie powodował
