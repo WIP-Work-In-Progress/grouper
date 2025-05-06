@@ -15,14 +15,15 @@ export default defineConfig([
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   {
+    files: ["**/*.{js,mjs,cjs}"],
     rules: {
       "no-console": "off",
+      "dot-location": "off",
       "prettier/prettier": [
         "error",
         {
           endOfLine: "auto",
           printWidth: 100,
-          trailingComma: "all",
         },
       ],
     },
