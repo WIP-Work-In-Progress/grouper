@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS registrations (
     admin_password_hash TEXT NOT NULL,
     preference_deadline TEXT NOT NULL,
     confirmation_deadline TEXT NOT NULL,
-    results_publish_date TEXT NOT NULL,
+    results_publish_date TEXT NOT NULL
 );
 
 -- grupy
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS assignments (
 );
 
 -- Przykladowe dane testowe
-INSERT INTO registrations (name, token, admin_password_hash, preference_deadline, confirmation_deadline) VALUES
+INSERT INTO registrations (name, token, admin_password_hash, preference_deadline, confirmation_deadline, results_publish_date) VALUES
 ('Zapisy na semestr letni', 'reg123token', 'hashed_password', '2025-05-20T23:59:00', '2025-05-21T23:59:00', '2025-05-22T23:59:00');
 
 INSERT INTO groups (registration_id, name, capacity) VALUES
