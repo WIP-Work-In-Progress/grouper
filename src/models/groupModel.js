@@ -40,8 +40,8 @@ const Group = {
     );
     const result = stmt.run(name, registrationId, capacity, id);
 
-    if (result.lastInsertRowid) {
-      return camelCaseKeys(Group.getById(result.lastInsertRowid));
+    if (result.changes === 1) {
+      return camelCaseKeys(Group.getById(id));
     }
     return null;
   },
