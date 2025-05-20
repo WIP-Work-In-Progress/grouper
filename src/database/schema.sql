@@ -54,7 +54,8 @@ CREATE TABLE IF NOT EXISTS confirmation_log (
 
 -- wyniki przydziałów do grup
 CREATE TABLE IF NOT EXISTS assignments (
-    participant_id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    participant_id INTEGER NOT NULL,
     group_id INTEGER NOT NULL,
     assigned_at TEXT NOT NULL,
     FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE,
