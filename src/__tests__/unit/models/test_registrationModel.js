@@ -11,10 +11,6 @@ const Tests = {
     const registrations = Registration.getAll();
     console.log("All registrations:", registrations);
   },
-  getByRegistrationId: () => {
-    const registrations = Registration.getById(1);
-    console.log("Registrations by ID:", registrations);
-  },
   getByName: () => {
     const registration = Registration.getByName("Zapisy na semestr letni");
     console.log("Registration by name:", registration);
@@ -27,10 +23,10 @@ const Tests = {
     const result = Registration.update(2, "Updated Test Registration", "updated_token", "updated_admin_password_hash", "2025-05-22(updated)", "2025-05-22(updated)", "2025-05-22(updated)");    
     console.log("Update registration result:", result);
   },
-delete: () => {
-        const result = Registration.delete(6);
-        console.log("Delete registration result:", result);
-    },
+  delete: () => {
+    const result = Registration.delete(7);
+    console.log("Delete registration result:", result);
+  },
 };
 
 const runTests = () => {
