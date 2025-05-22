@@ -81,7 +81,9 @@ INSERT INTO preferences (participant_id, group_id, preference_order) VALUES
 (1, 3, 3);
 
 INSERT INTO confirmation_log (participant_id, confirmed_at) VALUES
-(1, '2025-05-20T10:00:00');
+(1, '2025-05-20T10:00:00'),
+(2, '2025-05-20T11:30:00'),
+(2, '2025-05-20T12:50:00');
 
 INSERT INTO assignments (participant_id, group_id, assigned_at) VALUES
 (1, 1, '2025-05-22T00:00:00');
