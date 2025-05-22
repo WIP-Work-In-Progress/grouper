@@ -47,7 +47,8 @@ CREATE TABLE IF NOT EXISTS preferences (
 
 -- czas potwierdzenia preferencji
 CREATE TABLE IF NOT EXISTS confirmation_log (
-    participant_id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    participant_id INTEGER NOT NULL,
     confirmed_at TEXT NOT NULL,
     FOREIGN KEY (participant_id) REFERENCES participants(id) ON DELETE CASCADE
 );
