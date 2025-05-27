@@ -6,40 +6,39 @@ const ConfirmationLog = {
   getById: ({ id }) => {
     const stmt = db.prepare("SELECT * FROM confirmation_log WHERE id = ?");
     const log = stmt.get([id]);
+
+    if (!log) {
+      return null;
+    }
+
     return camelCaseKeys(log);
   },
 
   getMany: ({ limit = 100, order = "ASC" } = {}) => {
-    const getTransactionResult = db.transaction(() => {
-      const stmtTotal = db.prepare(
-        "SELECT COUNT(*) as total FROM confirmation_log"
-      );
-      const stmtData = db.prepare(
-        `SELECT * FROM confirmation_log ORDER BY confirmed_at ${order} LIMIT ?`
-      );
-      const total = stmtTotal.get().total;
-      const logs = stmtData.all([limit]);
-      return { data: logs.map((log) => camelCaseKeys(log)), total: total };
-    });
+    const stmt = db.prepare(
+      `SELECT * FROM confirmation_log ORDER BY confirmed_at ${order} LIMIT ?`
+    );
+    const logs = stmt.all([limit]);
 
-    return getTransactionResult();
+    return logs.map((log) => camelCaseKeys(log));
   },
 
   getByParticipantId: ({ participantId, order = "ASC" } = {}) => {
-    const getTransactionResult = db.transaction(() => {
-      const stmt = db.prepare(
-        `SELECT * FROM confirmation_log WHERE participant_id = ? ORDER BY confirmed_at ${order}`
-      );
-      const logs = stmt.all([participantId]);
-      return logs.map((l) => camelCaseKeys(l));
-    });
+    const stmt = db.prepare(
+      `SELECT * FROM confirmation_log WHERE participant_id = ? ORDER BY confirmed_at ${order}`
+    );
+    const logs = stmt.all([participantId]);
 
-    const result = getTransactionResult();
+    return logs.map((l) => camelCaseKeys(l));
+  },
 
-    if (result.length > 0) {
-      return { data: result };
-    }
-    return null;
+  countAll: () => {
+    const stmtTotal = db.prepare(
+      "SELECT COUNT(*) as total FROM confirmation_log"
+    );
+    const result = stmtTotal.get();
+
+    return result.total;
   },
 
   create: ({ participantId, confirmedAt }) => {
@@ -47,12 +46,12 @@ const ConfirmationLog = {
       const stmt = db.prepare(
         "INSERT INTO confirmation_log (participant_id, confirmed_at) VALUES (?, ?)"
       );
-      const result = stmt.run([participantId, confirmedAt]);
-      if (result.lastInsertRowid) {
-        return camelCaseKeys(
-          ConfirmationLog.getById({ id: result.lastInsertRowid })
-        );
+      const { lastInsertRowid } = stmt.run([participantId, confirmedAt]);
+
+      if (lastInsertRowid) {
+        return ConfirmationLog.getById({ id: lastInsertRowid });
       }
+
       return null;
     });
 
@@ -65,9 +64,11 @@ const ConfirmationLog = {
         "UPDATE confirmation_log SET participant_id = ?, confirmed_at = ? WHERE id = ?"
       );
       const result = stmt.run([participantId, confirmedAt, id]);
+
       if (result.changes === 1) {
-        return camelCaseKeys(ConfirmationLog.getById({ id }));
+        return ConfirmationLog.getById({ id });
       }
+
       return null;
     });
 
@@ -81,9 +82,11 @@ const ConfirmationLog = {
         "DELETE FROM confirmation_log WHERE participant_id = ?"
       );
       const result = stmt.run([participantId]);
+
       if (result.changes > 0) {
-        return { data: logs.data.map((l) => camelCaseKeys(l)) };
+        return logs;
       }
+
       return null;
     });
 
@@ -95,9 +98,11 @@ const ConfirmationLog = {
       const log = ConfirmationLog.getById({ id });
       const stmt = db.prepare("DELETE FROM confirmation_log WHERE id = ?");
       const result = stmt.run([id]);
+
       if (result.changes > 0) {
-        return camelCaseKeys(log);
+        return log;
       }
+
       return null;
     });
 
