@@ -1,4 +1,4 @@
-const Participant = require("../../../models/participantsTableModel");
+const Participant = require("../../../models/participantModel");
 
 // tests made to check if participantsTableModel.js work as intended based on how test_groupModel was made
 // these are not unittests 
