@@ -12,9 +12,9 @@ const Preference = {
     const preferences = stmt.all();
     return camelCaseKeys(preferences);
   },
-  getByRegistrationId: (registrationId) => {
-    const stmt = db.prepare("SELECT * FROM preferences WHERE registration_id = ?");
-    const preferences = stmt.all(registrationId);
+  getByParticipantId: (participantId) => {
+    const stmt = db.prepare("SELECT * FROM preferences WHERE participant_id = ?");
+    const preferences = stmt.all(participantId);
     return camelCaseKeys(preferences);
   },
   getByGroupId: (groupId) => {
