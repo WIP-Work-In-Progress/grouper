@@ -24,6 +24,11 @@ const Tests = {
     console.log("Confirmation Logs by Participant ID:", logs);
   },
 
+  countAll: () => {
+    const total = ConfirmationLog.countAll();
+    console.log("Total Confirmation Logs:", total);
+  },
+
   create: () => {
     const result = ConfirmationLog.create({
       participantId: 1,
