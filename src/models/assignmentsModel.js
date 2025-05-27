@@ -4,44 +4,32 @@ const { camelCaseKeys } = require("../utils/text");
 
 const Assignments = {
   getById: ({ id }) => {
-    const getTransactionResult = db.transaction(() => {
-      const stmt = db.prepare("SELECT * FROM assignments WHERE id = ?");
-      const assignment = stmt.get([id]);
+    const stmt = db.prepare("SELECT * FROM assignments WHERE id = ?");
+    const assignment = stmt.get([id]);
 
-      return camelCaseKeys(assignment);
-    });
-
-    return getTransactionResult();
+    return camelCaseKeys(assignment);
   },
 
   getByParticipantId: ({ participantId }) => {
-    const getTransactionResult = db.transaction(() => {
-      const stmt = db.prepare("SELECT * FROM assignments WHERE participant_id = ?");
-      const assignments = stmt.all([participantId]);
-      const result = assignments.map((row) => camelCaseKeys(row));
+    const stmt = db.prepare("SELECT * FROM assignments WHERE participant_id = ?");
+    const assignments = stmt.all([participantId]);
+    const result = assignments.map((row) => camelCaseKeys(row));
 
-      if (result.length > 0) {
-        return { data: result };
-      }
-      return null;
-    });
-
-    return getTransactionResult();
+    if (result.length > 0) {
+      return result;
+    }
+    return null;
   },
 
   getByGroupId: ({ groupId }) => {
-    const getTransactionResult = db.transaction(() => {
-      const stmt = db.prepare("SELECT * FROM assignments WHERE group_id = ?");
-      const assignments = stmt.all([groupId]);
-      const result = assignments.map((row) => camelCaseKeys(row));
+    const stmt = db.prepare("SELECT * FROM assignments WHERE group_id = ?");
+    const assignments = stmt.all([groupId]);
+    const result = assignments.map((row) => camelCaseKeys(row));
 
-      if (result.length > 0) {
-        return { data: result };
-      }
-      return null;
-    });
-
-    return getTransactionResult();
+    if (result.length > 0) {
+      return result;
+    }
+    return null;
   },
 
   create: ({ participantId, groupId, assignedAt }) => {
@@ -68,7 +56,7 @@ const Assignments = {
       const result = stmt.run([participantId, groupId, assignedAt, id]);
 
       if (result.changes === 1) {
-        return Assignments.getById({ id: id });
+        return Assignments.getById({ id });
       }
       return null;
     });
@@ -78,7 +66,7 @@ const Assignments = {
 
   delete: ({ id }) => {
     const getTransactionResult = db.transaction(() => {
-      const assignmentBackup = Assignments.getById({ id: id });
+      const assignmentBackup = Assignments.getById({ id });
       const stmt = db.prepare("DELETE FROM assignments WHERE id = ?");
       const result = stmt.run([id]);
 
@@ -93,11 +81,11 @@ const Assignments = {
 
   deleteByParticipantId: ({ participantId }) => {
     const getTransactionResult = db.transaction(() => {
-      const assignmentsBackup = Assignments.getByParticipantId({ participantId: participantId });
+      const assignmentsBackup = Assignments.getByParticipantId({ participantId });
       const stmt = db.prepare("DELETE FROM assignments WHERE participant_id = ?");
       const result = stmt.run([participantId]);
 
-      if (result.changes === assignmentsBackup.data.length) {
+      if (result.changes === assignmentsBackup.length) {
         return assignmentsBackup;
       }
       return null;
@@ -108,11 +96,11 @@ const Assignments = {
 
   deleteByGroupId: ({ groupId }) => {
     const getTransactionResult = db.transaction(() => {
-      const assignmentsBackup = Assignments.getByGroupId({ groupId: groupId });
+      const assignmentsBackup = Assignments.getByGroupId({ groupId });
       const stmt = db.prepare("DELETE FROM assignments WHERE group_id = ?");
       const result = stmt.run([groupId]);
 
-      if (result.changes === assignmentsBackup.data.length) {
+      if (result.changes === assignmentsBackup.length) {
         return assignmentsBackup;
       }
       return null;
