@@ -13,7 +13,9 @@ const Preference = {
     return camelCaseKeys(preferences);
   },
   getByParticipantId: (participantId) => {
-    const stmt = db.prepare("SELECT * FROM preferences WHERE participant_id = ?");
+    const stmt = db.prepare(
+      "SELECT * FROM preferences WHERE participant_id = ?",
+    );
     const preferences = stmt.all(participantId);
     return camelCaseKeys(preferences);
   },

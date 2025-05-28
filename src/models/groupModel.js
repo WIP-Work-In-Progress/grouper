@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 const db = require("../database/connection");
 const { camelCaseKeys } = require("../utils/text");
 
@@ -25,7 +24,7 @@ const Group = {
   },
   create: (name, registrationId, capacity) => {
     const stmt = db.prepare(
-      "INSERT INTO groups (name, registration_id, capacity) VALUES (?, ?, ?)"
+      "INSERT INTO groups (name, registration_id, capacity) VALUES (?, ?, ?)",
     );
     const result = stmt.run(name, registrationId, capacity);
 
@@ -36,7 +35,7 @@ const Group = {
   },
   update: (id, name, registrationId, capacity) => {
     const stmt = db.prepare(
-      "UPDATE groups SET name = ?, registration_id = ?, capacity = ? WHERE id = ?"
+      "UPDATE groups SET name = ?, registration_id = ?, capacity = ? WHERE id = ?",
     );
     const result = stmt.run(name, registrationId, capacity, id);
 

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 const db = require("../database/connection");
 const { camelCaseKeys } = require("../utils/text");
 
@@ -11,7 +10,9 @@ const Assignments = {
   },
 
   getByParticipantId: ({ participantId }) => {
-    const stmt = db.prepare("SELECT * FROM assignments WHERE participant_id = ?");
+    const stmt = db.prepare(
+      "SELECT * FROM assignments WHERE participant_id = ?",
+    );
     const assignments = stmt.all([participantId]);
     const result = assignments.map((row) => camelCaseKeys(row));
 
@@ -35,7 +36,7 @@ const Assignments = {
   create: ({ participantId, groupId, assignedAt }) => {
     const getTransactionResult = db.transaction(() => {
       const stmt = db.prepare(
-        "INSERT INTO assignments(participant_id, group_id, assigned_at) VALUES (?, ?, ?)"
+        "INSERT INTO assignments(participant_id, group_id, assigned_at) VALUES (?, ?, ?)",
       );
       const result = stmt.run([participantId, groupId, assignedAt]);
 
@@ -51,7 +52,7 @@ const Assignments = {
   update: ({ id, participantId, groupId, assignedAt }) => {
     const getTransactionResult = db.transaction(() => {
       const stmt = db.prepare(
-        "UPDATE assignments SET participant_id = ?, group_id = ?, assigned_at = ? WHERE id = ?"
+        "UPDATE assignments SET participant_id = ?, group_id = ?, assigned_at = ? WHERE id = ?",
       );
       const result = stmt.run([participantId, groupId, assignedAt, id]);
 
@@ -81,8 +82,12 @@ const Assignments = {
 
   deleteByParticipantId: ({ participantId }) => {
     const getTransactionResult = db.transaction(() => {
-      const assignmentsBackup = Assignments.getByParticipantId({ participantId });
-      const stmt = db.prepare("DELETE FROM assignments WHERE participant_id = ?");
+      const assignmentsBackup = Assignments.getByParticipantId({
+        participantId,
+      });
+      const stmt = db.prepare(
+        "DELETE FROM assignments WHERE participant_id = ?",
+      );
       const result = stmt.run([participantId]);
 
       if (result.changes === assignmentsBackup.length) {

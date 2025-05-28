@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 // simple test runner for the tests object with unit tests as methods
 const colors = {
   reset: "\x1b[0m",
@@ -28,7 +26,7 @@ const runTests = (Test) => {
   });
 
   console.log(
-    `\n${colors.blue}Test Results: ${passedCount}/${testCount} tests passed${colors.reset}`
+    `\n${colors.blue}Test Results: ${passedCount}/${testCount} tests passed${colors.reset}`,
   );
 };
 
