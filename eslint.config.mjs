@@ -18,14 +18,7 @@ export default defineConfig([
     files: ["**/*.{js,mjs,cjs}"],
     rules: {
       "no-console": "off",
-      "dot-location": "off",
-      "prettier/prettier": [
-        "error",
-        {
-          endOfLine: "auto",
-          printWidth: 100,
-        },
-      ],
+      "prettier/prettier": ["error"],
     },
   },
   eslintPluginPrettierRecommended,

@@ -16,11 +16,26 @@ const Tests = {
     console.log("Registration by name:", registration);
   },
   create: () => {
-    const result = Registration.create("Test Registration", "123ABC", "Haslo1!", "2025-05-22T00:00:00", "2025-05-23T00:00:00", "2025-05-25T00:00:00");
+    const result = Registration.create(
+      "Test Registration",
+      "123ABC",
+      "Haslo1!",
+      "2025-05-22T00:00:00",
+      "2025-05-23T00:00:00",
+      "2025-05-25T00:00:00",
+    );
     console.log("Create registration result:", result);
   },
   update: () => {
-    const result = Registration.update(2, "Updated Test Registration", "updated_token", "updated_admin_password_hash", "2025-05-22(updated)", "2025-05-22(updated)", "2025-05-22(updated)");    
+    const result = Registration.update(
+      2,
+      "Updated Test Registration",
+      "updated_token",
+      "updated_admin_password_hash",
+      "2025-05-22(updated)",
+      "2025-05-22(updated)",
+      "2025-05-22(updated)",
+    );
     console.log("Update registration result:", result);
   },
   delete: () => {

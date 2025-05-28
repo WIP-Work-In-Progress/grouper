@@ -38,7 +38,7 @@ const runTests = () => {
   Tests.getAll();
   Tests.getByParticipantId();
   Tests.getByGroupId();
-  // Tests.create();
+  Tests.create();
   Tests.update();
   Tests.delete();
 };

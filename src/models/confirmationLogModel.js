@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 const db = require("../database/connection");
 const { camelCaseKeys } = require("../utils/text");
 
@@ -16,7 +15,7 @@ const ConfirmationLog = {
 
   getMany: ({ limit = 100, order = "ASC" } = {}) => {
     const stmt = db.prepare(
-      `SELECT * FROM confirmation_log ORDER BY confirmed_at ${order} LIMIT ?`
+      `SELECT * FROM confirmation_log ORDER BY confirmed_at ${order} LIMIT ?`,
     );
     const logs = stmt.all([limit]);
 
@@ -25,7 +24,7 @@ const ConfirmationLog = {
 
   getByParticipantId: ({ participantId, order = "ASC" } = {}) => {
     const stmt = db.prepare(
-      `SELECT * FROM confirmation_log WHERE participant_id = ? ORDER BY confirmed_at ${order}`
+      `SELECT * FROM confirmation_log WHERE participant_id = ? ORDER BY confirmed_at ${order}`,
     );
     const logs = stmt.all([participantId]);
 
@@ -34,7 +33,7 @@ const ConfirmationLog = {
 
   countAll: () => {
     const stmtTotal = db.prepare(
-      "SELECT COUNT(*) as total FROM confirmation_log"
+      "SELECT COUNT(*) as total FROM confirmation_log",
     );
     const result = stmtTotal.get();
 
@@ -44,7 +43,7 @@ const ConfirmationLog = {
   create: ({ participantId, confirmedAt }) => {
     const getTransactionResult = db.transaction(() => {
       const stmt = db.prepare(
-        "INSERT INTO confirmation_log (participant_id, confirmed_at) VALUES (?, ?)"
+        "INSERT INTO confirmation_log (participant_id, confirmed_at) VALUES (?, ?)",
       );
       const { lastInsertRowid } = stmt.run([participantId, confirmedAt]);
 
@@ -61,7 +60,7 @@ const ConfirmationLog = {
   update: ({ id, participantId, confirmedAt }) => {
     const getTransactionResult = db.transaction(() => {
       const stmt = db.prepare(
-        "UPDATE confirmation_log SET participant_id = ?, confirmed_at = ? WHERE id = ?"
+        "UPDATE confirmation_log SET participant_id = ?, confirmed_at = ? WHERE id = ?",
       );
       const result = stmt.run([participantId, confirmedAt, id]);
 
@@ -79,7 +78,7 @@ const ConfirmationLog = {
     const getTransactionResult = db.transaction(() => {
       const logs = ConfirmationLog.getByParticipantId({ participantId });
       const stmt = db.prepare(
-        "DELETE FROM confirmation_log WHERE participant_id = ?"
+        "DELETE FROM confirmation_log WHERE participant_id = ?",
       );
       const result = stmt.run([participantId]);
 
