@@ -33,12 +33,34 @@ const Assignments = {
     return null;
   },
 
-  create: ({ participantId, groupId, assignedAt }) => {
+  getByRegistrationId: ({ registrationId }) => {
+    const stmt = db.prepare(
+      "SELECT * FROM assignments WHERE registration_id = ?",
+    );
+    const assignments = stmt.all([registrationId]);
+    const result = camelCaseKeys(assignments); // conversion function can take list so no map in needed
+
+    return result.length > 0 ? result : null;
+  },
+
+  create: ({
+    registrationId,
+    participantId,
+    assigned,
+    groupId,
+    assignedAt,
+  }) => {
     const getTransactionResult = db.transaction(() => {
       const stmt = db.prepare(
-        "INSERT INTO assignments(participant_id, group_id, assigned_at) VALUES (?, ?, ?)",
+        "INSERT INTO assignments(registration_id, participant_id, assigned, group_id, assigned_at) VALUES (?, ?, ?, ?, ?)",
       );
-      const result = stmt.run([participantId, groupId, assignedAt]);
+      const result = stmt.run([
+        registrationId,
+        participantId,
+        assigned ? 1 : 0,
+        groupId,
+        assignedAt,
+      ]);
 
       if (result.lastInsertRowid && result.changes === 1) {
         return Assignments.getById({ id: result.lastInsertRowid });
@@ -49,12 +71,32 @@ const Assignments = {
     return getTransactionResult();
   },
 
-  update: ({ id, participantId, groupId, assignedAt }) => {
+  update: ({
+    id,
+    registrationId,
+    participantId,
+    assigned,
+    groupId,
+    assignedAt,
+  }) => {
     const getTransactionResult = db.transaction(() => {
       const stmt = db.prepare(
-        "UPDATE assignments SET participant_id = ?, group_id = ?, assigned_at = ? WHERE id = ?",
+        `UPDATE assignments SET 
+          registration_id = ?,
+          participant_id = ?,
+          assigned = ?,
+          group_id = ?,
+          assigned_at = ?
+        WHERE id = ?`,
       );
-      const result = stmt.run([participantId, groupId, assignedAt, id]);
+      const result = stmt.run([
+        registrationId,
+        participantId,
+        assigned ? 1 : 0,
+        groupId,
+        assignedAt,
+        id,
+      ]);
 
       if (result.changes === 1) {
         return Assignments.getById({ id });
@@ -71,9 +113,9 @@ const Assignments = {
       const stmt = db.prepare("DELETE FROM assignments WHERE id = ?");
       const result = stmt.run([id]);
 
-      if (result.changes === 1) {
-        return assignmentBackup;
-      }
+      if (!assignmentBackup) return null;
+      if (result.changes === 1) return assignmentBackup;
+
       return null;
     });
 
@@ -90,9 +132,9 @@ const Assignments = {
       );
       const result = stmt.run([participantId]);
 
-      if (result.changes === assignmentsBackup.length) {
-        return assignmentsBackup;
-      }
+      if (!assignmentsBackup) return null;
+      if (result.changes === assignmentsBackup.length) return assignmentsBackup;
+
       return null;
     });
 
@@ -105,9 +147,28 @@ const Assignments = {
       const stmt = db.prepare("DELETE FROM assignments WHERE group_id = ?");
       const result = stmt.run([groupId]);
 
-      if (result.changes === assignmentsBackup.length) {
-        return assignmentsBackup;
-      }
+      if (!assignmentsBackup) return null;
+      if (result.changes === assignmentsBackup.length) return assignmentsBackup;
+
+      return null;
+    });
+
+    return getTransactionResult();
+  },
+
+  deleteByRegistrationId: ({ registrationId }) => {
+    const getTransactionResult = db.transaction(() => {
+      const assignmentsBackup = Assignments.getByRegistrationId({
+        registrationId,
+      });
+      const stmt = db.prepare(
+        "DELETE FROM assignments WHERE registration_id = ?",
+      );
+      const result = stmt.run([registrationId]);
+
+      if (!assignmentsBackup) return null;
+      if (result.changes === assignmentsBackup.length) return assignmentsBackup;
+
       return null;
     });
 

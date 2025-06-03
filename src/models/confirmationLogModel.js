@@ -22,11 +22,11 @@ const ConfirmationLog = {
     return logs.map((log) => camelCaseKeys(log));
   },
 
-  getByParticipantId: ({ participantId, order = "ASC" } = {}) => {
+  getByParticipantId: ({ participantId, order = "ASC", limit = 100 } = {}) => {
     const stmt = db.prepare(
-      `SELECT * FROM confirmation_log WHERE participant_id = ? ORDER BY confirmed_at ${order}`,
+      `SELECT * FROM confirmation_log WHERE participant_id = ? ORDER BY confirmed_at ${order} LIMIT ?`,
     );
-    const logs = stmt.all([participantId]);
+    const logs = stmt.all([participantId, limit]);
 
     return logs.map((l) => camelCaseKeys(l));
   },
